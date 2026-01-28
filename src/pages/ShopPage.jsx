@@ -11,7 +11,6 @@ const ShopPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Defined static filters since we removed the TypeScript types.js
   const categories = ['Toys', 'Clothing', 'Accessories', 'Books'];
   const genders = ['Boy', 'Girl', 'Unisex'];
   const ageGroups = ['0-2', '3-5', '6-8', '9-12'];
@@ -25,7 +24,7 @@ const ShopPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    // API call with safety catch
+   
     api.products.getAll(filters)
       .then(res => {
         setProducts(res || []);

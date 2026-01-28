@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { api } from '../services/api';
 
 const AuthContext = createContext(undefined);
 
@@ -12,15 +13,16 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (email, name) => {
-    const newUser = {
-      id: Math.random().toString(36).substr(2, 9),
-      name,
-      email,
-      orderHistory: []
-    };
-    setUser(newUser);
-    localStorage.setItem('kids_world_user', JSON.stringify(newUser));
+  const login = async (email, password) => {
+    const data = await api.auth.login(email, password);
+    setUser(data);
+    localStorage.setItem('kids_world_user', JSON.stringify(data));
+  };
+
+  const signup = async (name, email, password) => {
+    const data = await api.auth.signup(name, email, password);
+    setUser(data);
+    localStorage.setItem('kids_world_user', JSON.stringify(data));
   };
 
   const logout = () => {
@@ -40,7 +42,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, addOrder, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, addOrder, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   );

@@ -11,6 +11,8 @@ import CheckoutPage from './pages/CheckoutPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import OrdersPage from './pages/OrdersPage.jsx';
 import ProductDetailPage from './pages/ProductDetailPage.jsx';
+import AdminPage from './pages/AdminPage.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 const App = () => {
   return (
@@ -28,6 +30,14 @@ const App = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/orders" element={<OrdersPage />} />
                 <Route path="/product/:id" element={<ProductDetailPage />} />
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute>
+                      <AdminPage />
+                    </ProtectedRoute>
+                  }
+                />
               </Routes>
             </main>
             <Footer />

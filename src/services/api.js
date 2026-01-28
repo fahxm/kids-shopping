@@ -1,12 +1,47 @@
-import { MOCK_PRODUCTS } from '../constants.js';
+import axios from 'axios';
 
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || '/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Automatically add token to requests
+apiClient.interceptors.request.use((config) => {
+  const user = JSON.parse(localStorage.getItem('kids_world_user'));
+  if (user && user.token) {
+    config.headers.Authorization = `Bearer ${user.token}`;
+  }
+  return config;
+});
 
 export const api = {
+  auth: {
+    login: async (email, password) => {
+      const { data } = await apiClient.post('/users/login', { email, password });
+      return data;
+    },
+    signup: async (name, email, password) => {
+      const { data } = await apiClient.post('/users/signup', { name, email, password });
+      return data;
+    }
+  },
   products: {
     getAll: async (params) => {
-      await delay(400);
-      let filtered = [...MOCK_PRODUCTS];
+
+      const { data } = await apiClient.get('/products');
+
+      let filtered = data.map(p => ({
+        ...p,
+        id: p._id,
+        gender: 'Unisex',
+        rating: 4.5,
+        ageRange: p.ageRange || 'Unspecified'
+      }));
+
+
       if (params?.category && params.category !== 'All') {
         filtered = filtered.filter(p => p.category === params.category);
       }
@@ -15,25 +50,41 @@ export const api = {
       }
       if (params?.search) {
         const s = params.search.toLowerCase();
-        filtered = filtered.filter(p => 
+        filtered = filtered.filter(p =>
           p.title.toLowerCase().includes(s) || p.description.toLowerCase().includes(s)
         );
       }
+
       return filtered;
     },
     getById: async (id) => {
-      await delay(300);
-      return MOCK_PRODUCTS.find(p => p.id === id) || null;
+      const { data } = await apiClient.get(`/products/${id}`);
+      return {
+        ...data,
+        id: data._id,
+        gender: 'Unisex',
+        rating: 4.5,
+        ageRange: data.ageRange || 'Unspecified'
+      };
     },
     getFeatured: async () => {
-      await delay(300);
-      return MOCK_PRODUCTS.slice(0, 4);
+      const { data } = await apiClient.get('/products');
+
+      return data.slice(0, 4);
+    },
+    create: async (productData) => {
+      const { data } = await apiClient.post('/products', productData);
+      return data;
     }
   },
   orders: {
     create: async (order) => {
-      await delay(1000);
-      return { success: true, order };
+      const { data } = await apiClient.post('/orders', order);
+      return data;
+    },
+    getMyOrders: async () => {
+      const { data } = await apiClient.get('/orders/myorders');
+      return data;
     }
   }
 };

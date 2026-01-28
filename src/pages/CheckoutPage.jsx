@@ -24,11 +24,42 @@ const CheckoutPage = () => {
     e.preventDefault();
     if (step === 1) return setStep(2);
     setLoading(true);
-    const order = { id: Date.now(), items: [...cart], total: cartTotal, status: 'Processing', date: new Date().toLocaleDateString() };
-    await api.orders.create(order);
-    addOrder(order);
-    clearCart();
-    navigate('/orders');
+
+    // Map cart items to backend format (product ID, etc.)
+    const orderItems = cart.map(item => ({
+      title: item.title,
+      qty: 1, // Assuming quantity 1 for now if cart doesn't track it
+      imageUrl: item.imageUrl,
+      price: item.price,
+      product: item.id
+    }));
+
+    const shippingAddress = {
+      address: formData.address,
+      city: formData.city || 'Default City',
+      postalCode: formData.zip || '00000',
+      country: 'USA',
+      phone: '1234567890'
+    };
+
+    const orderPayload = {
+      orderItems,
+      shippingAddress,
+      paymentMethod: 'Card',
+      totalPrice: cartTotal
+    };
+
+    try {
+      const createdOrder = await api.orders.create(orderPayload);
+      // addOrder(createdOrder); // Context update optional if we fetch fresh list on OrderPage
+      clearCart();
+      setLoading(false);
+      navigate('/orders');
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      alert('Order failed!');
+    }
   };
 
   return (
@@ -37,12 +68,16 @@ const CheckoutPage = () => {
         <h2 className="text-3xl font-black">{step === 1 ? 'Shipping' : 'Payment'}</h2>
         {step === 1 ? (
           <div className="space-y-4">
-            <input required placeholder="Full Name" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} className="w-full p-4 border rounded-xl" />
-            <input required placeholder="Address" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} className="w-full p-4 border rounded-xl" />
+            <input required placeholder="Full Name" value={formData.fullName} onChange={e => setFormData({ ...formData, fullName: e.target.value })} className="w-full p-4 border rounded-xl" />
+            <input required placeholder="Address" value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} className="w-full p-4 border rounded-xl" />
+            <div className="flex gap-4">
+              <input required placeholder="City" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} className="w-full p-4 border rounded-xl" />
+              <input required placeholder="Zip Code" value={formData.zip} onChange={e => setFormData({ ...formData, zip: e.target.value })} className="w-32 p-4 border rounded-xl" />
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
-            <input required placeholder="Card Number" value={formData.cardNumber} onChange={e => setFormData({...formData, cardNumber: e.target.value})} className="w-full p-4 border rounded-xl" />
+            <input required placeholder="Card Number" value={formData.cardNumber} onChange={e => setFormData({ ...formData, cardNumber: e.target.value })} className="w-full p-4 border rounded-xl" />
           </div>
         )}
         <button type="submit" disabled={loading} className="w-full py-5 bg-blue-500 text-white font-bold rounded-full">
