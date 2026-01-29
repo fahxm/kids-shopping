@@ -19,7 +19,16 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: false
-    }
+    },
+    cart: [
+        {
+            id: { type: String },
+            title: { type: String, required: true },
+            price: { type: Number, required: true },
+            imageUrl: { type: String },
+            quantity: { type: Number, required: true, default: 1 }
+        }
+    ]
 }, {
     timestamps: true
 });

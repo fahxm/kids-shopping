@@ -86,5 +86,15 @@ export const api = {
       const { data } = await apiClient.get('/orders/myorders');
       return data;
     }
+  },
+  carts: {
+    get: async () => {
+      const { data } = await apiClient.get('/cart');
+      return data;
+    },
+    update: async (cartItems) => {
+      const { data } = await apiClient.put('/cart', cartItems);
+      return data;
+    }
   }
 };

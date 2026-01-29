@@ -28,8 +28,8 @@ const CheckoutPage = () => {
     // Map cart items to backend format (product ID, etc.)
     const orderItems = cart.map(item => ({
       title: item.title,
-      qty: 1, // Assuming quantity 1 for now if cart doesn't track it
-      imageUrl: item.imageUrl,
+      qty: item.quantity || 1, // Use actual quantity
+      imageUrl: item.imageUrl || 'https://via.placeholder.com/150', // Fallback image
       price: item.price,
       product: item.id
     }));
@@ -39,7 +39,7 @@ const CheckoutPage = () => {
       city: formData.city || 'Default City',
       postalCode: formData.zip || '00000',
       country: 'USA',
-      phone: '1234567890'
+      phone: '1234567890' // Ideally ask user for this
     };
 
     const orderPayload = {
@@ -58,7 +58,7 @@ const CheckoutPage = () => {
     } catch (error) {
       console.error(error);
       setLoading(false);
-      alert('Order failed!');
+      alert(error.response?.data?.message || 'Order failed! Please check your connection.');
     }
   };
 

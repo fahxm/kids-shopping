@@ -18,7 +18,7 @@ const Footer = () => {
               <span className="sr-only">Facebook</span>
               <FaFacebook size={20} />
             </a>
-            <a href="#" className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-400 transition text-white">
+            <a href="https://www.instagram.com/fah_xm_/" className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-400 transition text-white">
               <span className="sr-only">Instagram</span>
               <FaInstagram size={20} />
             </a>

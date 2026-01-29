@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
 const Navbar = () => {
-  const { itemCount } = useCart();
+  const { itemCount, clearCart } = useCart();
   const { isAuthenticated, logout, user } = useAuth();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
@@ -59,7 +59,7 @@ const Navbar = () => {
                 <Link to="/orders" className="text-gray-700 hover:text-blue-500 font-medium">
                   Hi, {user?.name?.split(' ')[0]}
                 </Link>
-                <button onClick={logout} className="text-sm text-gray-500 hover:text-red-500">Logout</button>
+                <button onClick={() => { logout(); clearCart(); window.location.hash = '/login'; window.location.reload(); }} className="text-sm text-gray-500 hover:text-red-500">Logout</button>
               </div>
             ) : (
               <Link to="/login" className="text-gray-700 hover:text-blue-500">
