@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: 'http://localhost:5000/api', // Point to local backend
   headers: {
     'Content-Type': 'application/json',
   },
@@ -30,18 +29,18 @@ export const api = {
   },
   products: {
     getAll: async (params) => {
-
       const { data } = await apiClient.get('/products');
 
+      // Transform _id to id for frontend compatibility
       let filtered = data.map(p => ({
         ...p,
         id: p._id,
-        gender: 'Unisex',
+        gender: 'Unisex', // Default values if missing
         rating: 4.5,
         ageRange: p.ageRange || 'Unspecified'
       }));
 
-
+      // Filter locally or pass query params to backend (depending on backend implementation)
       if (params?.category && params.category !== 'All') {
         filtered = filtered.filter(p => p.category === params.category);
       }
@@ -54,7 +53,6 @@ export const api = {
           p.title.toLowerCase().includes(s) || p.description.toLowerCase().includes(s)
         );
       }
-
       return filtered;
     },
     getById: async (id) => {
@@ -69,7 +67,6 @@ export const api = {
     },
     getFeatured: async () => {
       const { data } = await apiClient.get('/products');
-
       return data.slice(0, 4);
     },
     create: async (productData) => {
