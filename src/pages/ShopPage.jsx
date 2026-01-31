@@ -7,13 +7,13 @@ const ShopPage = () => {
   const { addToCart } = useCart();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const categories = ['Toys', 'Clothing', 'Accessories', 'Books'];
   const genders = ['Boy', 'Girl', 'Unisex'];
-  const ageGroups = ['0-2', '3-5', '6-8', '9-12'];
+  const ageGroups = ['0-1', '2-5', '6-10', '11-15'];
 
   const [filters, setFilters] = useState({
     category: queryParams.get('category') || 'All',
@@ -24,7 +24,7 @@ const ShopPage = () => {
 
   useEffect(() => {
     setLoading(true);
-   
+
     api.products.getAll(filters)
       .then(res => {
         setProducts(res || []);
@@ -55,7 +55,7 @@ const ShopPage = () => {
               <span className="w-2 h-8 bg-blue-500 rounded-full"></span>
               Filters
             </h3>
-            
+
             <div className="space-y-8">
               {/* Category */}
               <div>
@@ -106,7 +106,7 @@ const ShopPage = () => {
               </div>
             </div>
 
-            <button 
+            <button
               onClick={() => setFilters({ category: 'All', gender: 'All', age: 'All', search: '' })}
               className="w-full mt-8 py-4 bg-gray-100 hover:bg-gray-200 text-gray-500 font-bold rounded-2xl transition"
             >
@@ -152,7 +152,7 @@ const ShopPage = () => {
                       <span className="text-3xl font-black text-blue-600">
                         ${product.price ? Number(product.price).toFixed(2) : '0.00'}
                       </span>
-                      <button 
+                      <button
                         onClick={() => addToCart(product)}
                         className="bg-blue-500 hover:bg-blue-600 text-white w-12 h-12 flex items-center justify-center rounded-2xl shadow-lg transition transform active:scale-90"
                       >

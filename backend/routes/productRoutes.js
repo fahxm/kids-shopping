@@ -3,8 +3,7 @@ const router = express.Router();
 const Product = require('../models/Product');
 
 //inventory management 
-//'/' accessall inventories
-//  ':id' access a unique inventory
+
 router.get('/', async (req, res) => {
     try {
         const products = await Product.find({});
@@ -13,7 +12,6 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: error.message, stack: error.stack });
     }
 });
-
 
 router.get('/:id', async (req, res) => {
     try {
@@ -29,9 +27,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// @desc    Create a product
-// @route   POST /api/products
-// @access  Private (Admin) - Protected in frontend for now
+//Create a product
 router.post('/', async (req, res) => {
     try {
         const { title, price, description, category, imageUrl, ageRange } = req.body;
@@ -43,8 +39,8 @@ router.post('/', async (req, res) => {
             category,
             imageUrl: imageUrl || 'https://via.placeholder.com/400',
             ageRange: ageRange || 'All',
-            stock: 10, // Default stock
-            // user: req.user._id // We will add this when we have full auth
+            stock: 10,
+            
         });
 
         const createdProduct = await product.save();

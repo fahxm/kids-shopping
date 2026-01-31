@@ -3,9 +3,7 @@ const router = express.Router();
 const Order = require('../models/Order');
 const { protect } = require('../middleware/authMiddleware');
 
-// @desc    Create new order
-// @route   POST /api/orders
-// @access  Private
+//create new order
 router.post('/', protect, async (req, res) => {
     try {
         const {
@@ -36,9 +34,7 @@ router.post('/', protect, async (req, res) => {
     }
 });
 
-// @desc    Get logged in user orders
-// @route   GET /api/orders/myorders
-// @access  Private
+//Get logged in user orders
 router.get('/myorders', protect, async (req, res) => {
     const orders = await Order.find({ user: req.user._id });
     res.json(orders);

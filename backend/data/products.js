@@ -5,6 +5,7 @@ const products = [
         price: 899,
         category: "Apparel",
         ageRange: "6-10",
+        gender: "Girls",
         imageUrl: "https://images.pexels.com/photos/1619697/pexels-photo-1619697.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
     {
@@ -12,7 +13,8 @@ const products = [
         description: "Classic wooden train set for creative play.",
         price: 450,
         category: "Toys",
-        ageRange: "0-5",
+        ageRange: "2-5",
+        gender: "Unisex",
         imageUrl: "https://images.pexels.com/photos/255514/pexels-photo-255514.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
     {
@@ -20,7 +22,8 @@ const products = [
         description: "Lovely pink frock with floral patterns.",
         price: 1200,
         category: "Apparel",
-        ageRange: "0-5",
+        ageRange: "2-5",
+        gender: "Girls",
         imageUrl: "https://images.pexels.com/photos/3663068/pexels-photo-3663068.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
     {
@@ -29,6 +32,7 @@ const products = [
         price: 699,
         category: "Toys",
         ageRange: "6-10",
+        gender: "Unisex",
         imageUrl: "https://images.pexels.com/photos/1619697/pexels-photo-1619697.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
     {
@@ -37,6 +41,7 @@ const products = [
         price: 1500,
         category: "Apparel",
         ageRange: "11-15",
+        gender: "Boys",
         imageUrl: "https://images.pexels.com/photos/1126935/pexels-photo-1126935.jpeg?auto=compress&cs=tinysrgb&w=400"
     }
 ];

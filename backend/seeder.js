@@ -5,9 +5,10 @@ const User = require('./models/User');
 const Product = require('./models/Product');
 const Order = require('./models/Order');
 
-dotenv.config({ path: 'backend/.env' }); 
+dotenv.config();
 
 
+console.log('Seeder script started...');
 const connect = async () => {
     try {
         const conn = await mongoose.connect(process.env.MONGO_URI);
@@ -26,12 +27,12 @@ const importData = async () => {
         await Product.deleteMany();
         await User.deleteMany();
 
-       
+
         const createdUsers = await User.insertMany([
             {
                 name: 'Admin User',
                 email: 'admin@example.com',
-                password: 'password123', 
+                password: 'password123',
                 isAdmin: true
             }
         ]);

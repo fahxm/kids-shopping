@@ -22,6 +22,11 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    gender: {
+        type: String,
+        required: true,
+        default: 'Unisex'
+    },
     imageUrl: {
         type: String,
         required: true

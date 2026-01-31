@@ -35,7 +35,7 @@ export const api = {
       let filtered = data.map(p => ({
         ...p,
         id: p._id,
-        gender: 'Unisex', // Default values if missing
+        gender: p.gender || 'Unisex', // Use backend field
         rating: 4.5,
         ageRange: p.ageRange || 'Unspecified'
       }));

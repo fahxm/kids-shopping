@@ -16,24 +16,36 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
 
-  // Sync with Server on Login
+  // Sync with Server on Login (Merge Strategy)
   useEffect(() => {
     if (isAuthenticated) {
-      const fetchServerCart = async () => {
+      const fetchAndMergeCart = async () => {
         try {
           const serverCart = await api.carts.get();
-          if (serverCart && serverCart.length > 0) {
-            setCart(serverCart);
-          } else if (cart.length > 0) {
-            // Optional: If server is empty but we have local items, push them? 
-            // For now, let's just fetch to ensure persistence works.
-            await api.carts.update(cart);
+          let mergedCart = [...(serverCart || [])];
+
+          // If we had local items before login, merge them in
+          if (cart.length > 0) {
+            cart.forEach(localItem => {
+              const existingItemIndex = mergedCart.findIndex(i => i.id === localItem.id);
+              if (existingItemIndex > -1) {
+                // If item exists in both, sum the quantities
+                mergedCart[existingItemIndex].quantity += localItem.quantity;
+              } else {
+                // Otherwise just add it
+                mergedCart.push(localItem);
+              }
+            });
+            // Update server immediately with the new merged state
+            await api.carts.update(mergedCart);
           }
+
+          setCart(mergedCart);
         } catch (error) {
-          console.error("Failed to fetch cart", error);
+          console.error("Failed to fetch/merge cart", error);
         }
       };
-      fetchServerCart();
+      fetchAndMergeCart();
     }
   }, [isAuthenticated]);
 
