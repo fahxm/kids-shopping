@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { api } from '../services/api';
 
+//in this file even this refreshed the login user stays same 
+
 const AuthContext = createContext(undefined);
 
 export const AuthProvider = ({ children }) => {

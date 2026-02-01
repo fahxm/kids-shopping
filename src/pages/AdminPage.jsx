@@ -96,10 +96,10 @@ const AdminPage = () => {
                             onChange={handleChange}
                             className="w-full px-4 py-3 rounded-xl bg-gray-50 border-transparent focus:border-blue-500 focus:bg-white transition"
                         >
-                            <option value="0-2">0-2 Years</option>
-                            <option value="3-5">3-5 Years</option>
-                            <option value="6-8">6-8 Years</option>
-                            <option value="9-12">9-12 Years</option>
+                            <option value="0-1">0-1 Years</option>
+                            <option value="2-5">2-5 Years</option>
+                            <option value="6-10">6-10 Years</option>
+                            <option value="11-15">11-15 Years</option>
                         </select>
                     </div>
 
