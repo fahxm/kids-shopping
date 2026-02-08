@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const { protect, admin } = require('../middleware/authMiddleware');
 
 //inventory management 
 
@@ -27,6 +28,21 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// Delete Product (Admin Only)
+router.delete('/:id', protect, admin, async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (product) {
+            await product.deleteOne();
+            res.json({ message: 'Product removed' });
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 //Create a product
 router.post('/', async (req, res) => {
     try {
@@ -40,7 +56,7 @@ router.post('/', async (req, res) => {
             imageUrl: imageUrl || 'https://via.placeholder.com/400',
             ageRange: ageRange || 'All',
             stock: 10,
-            
+
         });
 
         const createdProduct = await product.save();
