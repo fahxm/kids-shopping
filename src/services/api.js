@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000/api', // Point to local backend
+  baseURL: 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Automatically add token to requests
+
 apiClient.interceptors.request.use((config) => {
   const user = JSON.parse(localStorage.getItem('kids_world_user'));
   if (user && user.token) {
@@ -30,8 +30,6 @@ export const api = {
   products: {
     getAll: async (params) => {
       const { data } = await apiClient.get('/products');
-
-      // Transform _id to id for frontend compatibility
       let filtered = data.map(p => ({
         ...p,
         id: p._id,
@@ -40,7 +38,7 @@ export const api = {
         ageRange: p.ageRange || 'Unspecified'
       }));
 
-      // Filter locally or pass query params to backend (depending on backend implementation)
+
       if (params?.category && params.category !== 'All') {
         filtered = filtered.filter(p => p.category === params.category);
       }
@@ -91,6 +89,38 @@ export const api = {
     },
     update: async (cartItems) => {
       const { data } = await apiClient.put('/cart', cartItems);
+      return data;
+    }
+  },
+  users: {
+    getAll: async () => {
+      const { data } = await apiClient.get('/users');
+      return data;
+    },
+    delete: async (id) => {
+      const { data } = await apiClient.delete(`/users/${id}`);
+      return data;
+    },
+    create: async (userData) => {
+      const { data } = await apiClient.post('/users', userData);
+      return data;
+    }
+  },
+  admin: {
+    getAllOrders: async () => {
+      const { data } = await apiClient.get('/orders');
+      return data;
+    },
+    getUserOrders: async (userId) => {
+      const { data } = await apiClient.get(`/orders/user/${userId}`);
+      return data;
+    },
+    deleteProduct: async (id) => {
+      const { data } = await apiClient.delete(`/products/${id}`);
+      return data;
+    },
+    updateProduct: async (id, productData) => {
+      const { data } = await apiClient.put(`/products/${id}`, productData);
       return data;
     }
   }

@@ -13,6 +13,7 @@ import OrdersPage from './pages/OrdersPage.jsx';
 import ProductDetailPage from './pages/ProductDetailPage.jsx';
 import AdminPage from './pages/AdminPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import AdminLayout from './components/AdminLayout.jsx';
 
 const App = () => {
   return (
@@ -34,10 +35,12 @@ const App = () => {
                   path="/admin"
                   element={
                     <ProtectedRoute>
-                      <AdminPage />
+                      <AdminLayout />
                     </ProtectedRoute>
                   }
-                />
+                >
+                  <Route index element={<AdminPage />} />
+                </Route>
               </Routes>
             </main>
             <Footer />

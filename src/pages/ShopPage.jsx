@@ -150,7 +150,7 @@ const ShopPage = () => {
                     <p className="text-gray-400 text-sm font-medium mb-6 line-clamp-2">{product.description}</p>
                     <div className="mt-auto flex items-center justify-between">
                       <span className="text-3xl font-black text-blue-600">
-                        ${product.price ? Number(product.price).toFixed(2) : '0.00'}
+                        ₹{product.price ? Number(product.price).toFixed(2) : '0.00'}
                       </span>
                       <button
                         onClick={() => addToCart(product)}

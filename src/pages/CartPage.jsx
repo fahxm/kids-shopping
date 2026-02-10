@@ -30,13 +30,13 @@ const CartPage = () => {
                   <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                 </div>
               </div>
-              <div className="text-xl font-bold">${(item.price * item.quantity).toFixed(2)}</div>
+              <div className="text-xl font-bold">₹{(item.price * item.quantity).toFixed(2)}</div>
             </div>
           ))}
         </div>
         <div className="w-full lg:w-96">
           <div className="bg-white rounded-2xl p-6 shadow-md sticky top-24">
-            <div className="flex justify-between text-2xl font-bold mb-6"><span>Total</span><span>${cartTotal.toFixed(2)}</span></div>
+            <div className="flex justify-between text-2xl font-bold mb-6"><span>Total</span><span>₹{cartTotal.toFixed(2)}</span></div>
             <Link to="/checkout" className="block w-full text-center bg-yellow-400 text-blue-900 font-bold py-4 rounded-full">Checkout Now</Link>
           </div>
         </div>

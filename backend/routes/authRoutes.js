@@ -60,7 +60,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-// Get all users (Admin only)
+// Get all users for Admin only
 router.get('/', protect, admin, async (req, res) => {
     try {
         const users = await User.find({});
@@ -70,7 +70,7 @@ router.get('/', protect, admin, async (req, res) => {
     }
 });
 
-// Delete user (Admin only)
+// Delete user for Admin only
 router.delete('/:id', protect, admin, async (req, res) => {
     try {
         const user = await User.findById(req.params.id);

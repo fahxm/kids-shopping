@@ -17,18 +17,18 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className="relative h-[600px] flex items-center">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1513159419869-1133c151a662?auto=format&fit=crop&q=80&w=1600" 
-            alt="Playful background" 
+          <img
+            src="https://images.unsplash.com/photo-1513159419869-1133c151a662?auto=format&fit=crop&q=80&w=1600"
+            alt="Playful background"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/40 to-transparent"></div>
         </div>
-        
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 w-full">
           <div className="max-w-2xl bg-white/90 backdrop-blur-md p-10 rounded-[3rem] shadow-2xl border-4 border-yellow-300 transform -rotate-1">
             <h1 className="text-5xl md:text-6xl font-black mb-6 text-blue-600 leading-tight">
-              Small Styles, <br/>
+              Small Styles, <br />
               <span className="text-pink-500 underline decoration-yellow-400">Big Adventures!</span>
             </h1>
             <p className="text-xl text-gray-700 mb-8 font-medium">
@@ -73,8 +73,8 @@ const HomePage = () => {
                   <span className="text-gray-400 ml-1 font-medium">{product.rating}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl font-black text-blue-600">${product.price.toFixed(2)}</span>
-                  <button 
+                  <span className="text-2xl font-black text-blue-600">₹{product.price.toFixed(2)}</span>
+                  <button
                     onClick={() => addToCart(product)}
                     className="p-3 bg-blue-50 text-blue-600 rounded-2xl hover:bg-blue-600 hover:text-white transition-colors"
                   >

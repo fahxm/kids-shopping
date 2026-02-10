@@ -7,18 +7,21 @@ const AuthContext = createContext(undefined);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const savedUser = localStorage.getItem('kids_world_user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
+    setLoading(false);
   }, []);
 
   const login = async (email, password) => {
     const data = await api.auth.login(email, password);
     setUser(data);
     localStorage.setItem('kids_world_user', JSON.stringify(data));
+    return data;
   };
 
   const signup = async (name, email, password) => {
@@ -44,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, addOrder, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, addOrder, isAuthenticated: !!user, loading }}>
       {children}
     </AuthContext.Provider>
   );

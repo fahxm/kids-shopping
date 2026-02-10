@@ -33,7 +33,7 @@ const OrdersPage = () => {
           <div className="flex justify-between border-b pb-4 mb-4 font-bold">
             <span className="text-gray-500 text-sm">Order #{order._id}</span>
             <div className="text-right">
-              <span className="block text-blue-600 text-xl">${order.totalPrice.toFixed(2)}</span>
+              <span className="block text-blue-600 text-xl">₹{order.totalPrice.toFixed(2)}</span>
               <span className="text-xs text-gray-400">{new Date(order.createdAt).toLocaleDateString()}</span>
             </div>
           </div>
@@ -44,7 +44,7 @@ const OrdersPage = () => {
                   <img src={item.imageUrl} alt={item.title} className="w-10 h-10 rounded object-cover" />
                   <span>{item.title} (x{item.qty})</span>
                 </div>
-                <span>${item.price}</span>
+                <span>₹{item.price}</span>
               </div>
             ))}
           </div>

@@ -15,7 +15,8 @@ const CheckoutPage = () => {
     fullName: user?.name || '',
     email: user?.email || '',
     address: '', city: '', zip: '',
-    cardName: '', cardNumber: '', expiry: '', cvv: ''
+    cardName: '', cardNumber: '', expiry: '', cvv: '',
+    paymentMethod: 'Card'
   });
 
   if (!isAuthenticated) return <div className="text-center py-20"><button onClick={() => navigate('/login')}>Login to Checkout</button></div>;
@@ -26,12 +27,13 @@ const CheckoutPage = () => {
     setLoading(true);
 
     // Map cart items to backend format (product ID, etc.)
+    console.log('Cart items before checkout:', cart);
     const orderItems = cart.map(item => ({
       title: item.title,
       qty: item.quantity || 1, // Use actual quantity
       imageUrl: item.imageUrl || 'https://via.placeholder.com/150', // Fallback image
       price: item.price,
-      product: item.id
+      product: item.id || item._id // Fallback to _id if id is missing
     }));
 
     const shippingAddress = {
@@ -45,7 +47,7 @@ const CheckoutPage = () => {
     const orderPayload = {
       orderItems,
       shippingAddress,
-      paymentMethod: 'Card',
+      paymentMethod: formData.paymentMethod,
       totalPrice: cartTotal
     };
 
@@ -77,11 +79,28 @@ const CheckoutPage = () => {
           </div>
         ) : (
           <div className="space-y-4">
-            <input required placeholder="Card Number" value={formData.cardNumber} onChange={e => setFormData({ ...formData, cardNumber: e.target.value })} className="w-full p-4 border rounded-xl" />
+            <div className="flex gap-4 mb-4">
+              <label className={`flex-1 p-4 border rounded-xl cursor-pointer ${formData.paymentMethod === 'Card' ? 'border-blue-500 bg-blue-50' : ''}`}>
+                <input type="radio" name="paymentMethod" value="Card" checked={formData.paymentMethod === 'Card'} onChange={e => setFormData({ ...formData, paymentMethod: 'Card' })} className="mr-2" />
+                Credit/Debit Card
+              </label>
+              <label className={`flex-1 p-4 border rounded-xl cursor-pointer ${formData.paymentMethod === 'COD' ? 'border-blue-500 bg-blue-50' : ''}`}>
+                <input type="radio" name="paymentMethod" value="COD" checked={formData.paymentMethod === 'COD'} onChange={e => setFormData({ ...formData, paymentMethod: 'COD' })} className="mr-2" />
+                Cash on Delivery
+              </label>
+            </div>
+            {formData.paymentMethod === 'Card' && (
+              <input required placeholder="Card Number" value={formData.cardNumber} onChange={e => setFormData({ ...formData, cardNumber: e.target.value })} className="w-full p-4 border rounded-xl" />
+            )}
+            {formData.paymentMethod === 'COD' && (
+              <div className="p-4 bg-yellow-50 text-yellow-800 rounded-xl">
+                Pay cash upon delivery. Additional fee of ₹10 may apply.
+              </div>
+            )}
           </div>
         )}
         <button type="submit" disabled={loading} className="w-full py-5 bg-blue-500 text-white font-bold rounded-full">
-          {loading ? 'Processing...' : (step === 1 ? 'Next' : `Pay $${cartTotal.toFixed(2)}`)}
+          {loading ? 'Processing...' : (step === 1 ? 'Next' : (formData.paymentMethod === 'COD' ? 'Place Order' : `Pay ₹${cartTotal.toFixed(2)}`))}
         </button>
       </form>
     </div>

@@ -3,11 +3,13 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const ProtectedRoute = ({ children }) => {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
 
-    // Simple check: User must be logged in AND have the name 'Admin'
-    // In a real app, you would check user.isAdmin from the database
-    if (!user || user.name !== 'Admin') {
+    if (loading) {
+        return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    }
+
+    if (!user || user.role !== 'admin') {
         return <Navigate to="/" replace />;
     }
 

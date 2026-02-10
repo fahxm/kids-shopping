@@ -37,9 +37,9 @@ const ProductDetailPage = () => {
         {/* Image Gallery */}
         <div className="md:w-1/2">
           <div className="bg-white rounded-[3rem] p-4 shadow-xl border-4 border-white overflow-hidden aspect-square">
-            <img 
-              src={product.imageUrl} 
-              alt={product.title} 
+            <img
+              src={product.imageUrl}
+              alt={product.title}
               className="w-full h-full object-cover rounded-[2.5rem]"
             />
           </div>
@@ -70,7 +70,7 @@ const ProductDetailPage = () => {
             </div>
           </div>
 
-          <p className="text-2xl font-black text-blue-600">${product.price.toFixed(2)}</p>
+          <p className="text-2xl font-black text-blue-600">₹{product.price.toFixed(2)}</p>
 
           <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
             <h3 className="font-bold text-gray-800 mb-2 uppercase tracking-widest text-xs">Product Details</h3>
@@ -83,7 +83,7 @@ const ProductDetailPage = () => {
               <span className="text-xl font-black text-gray-800">1</span>
               <button className="text-2xl font-bold text-gray-400 hover:text-blue-500">+</button>
             </div>
-            <button 
+            <button
               onClick={() => addToCart(product)}
               className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-black py-4 rounded-full shadow-lg transition transform active:scale-95 text-xl"
             >

@@ -18,11 +18,18 @@ const LoginPage = () => {
     setError('');
     try {
       if (isLogin) {
-        await login(email, password);
+        const data = await login(email, password);
+        console.log("Login User Data:", data); // Debugging
+        if (data && (data.role === 'admin' || data.isAdmin)) {
+          console.log("Redirecting to Admin Dashboard");
+          navigate('/admin', { replace: true });
+        } else {
+          navigate(redirect, { replace: true });
+        }
       } else {
         await signup(name, email, password);
+        navigate(redirect, { replace: true });
       }
-      navigate(redirect);
     } catch (err) {
       setError(err.response?.data?.message || 'Authentication failed');
     }

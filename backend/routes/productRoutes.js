@@ -43,6 +43,31 @@ router.delete('/:id', protect, admin, async (req, res) => {
     }
 });
 
+// Update Product (Admin Only)
+router.put('/:id', protect, admin, async (req, res) => {
+    try {
+        const { title, price, description, category, imageUrl, ageRange, stock } = req.body;
+        const product = await Product.findById(req.params.id);
+
+        if (product) {
+            product.title = title || product.title;
+            product.price = price || product.price;
+            product.description = description || product.description;
+            product.category = category || product.category;
+            product.imageUrl = imageUrl || product.imageUrl;
+            product.ageRange = ageRange || product.ageRange;
+            product.stock = stock || product.stock;
+
+            const updatedProduct = await product.save();
+            res.json(updatedProduct);
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 //Create a product
 router.post('/', async (req, res) => {
     try {

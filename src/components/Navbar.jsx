@@ -56,6 +56,11 @@ const Navbar = () => {
           <div className="flex items-center space-x-4 ml-4">
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
+                {(user?.role === 'admin' || user?.isAdmin) && (
+                  <Link to="/admin" className="text-purple-600 hover:text-purple-800 font-bold">
+                    Admin Dashboard
+                  </Link>
+                )}
                 <Link to="/orders" className="text-gray-700 hover:text-blue-500 font-medium">
                   Hi, {user?.name?.split(' ')[0]}
                 </Link>
