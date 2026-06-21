@@ -12,7 +12,7 @@ const ShopPage = () => {
   const [loading, setLoading] = useState(true);
 
   const categories = ['Toys', 'Clothing', 'Accessories', 'Books'];
-  const genders = ['Boy', 'Girl', 'Unisex'];
+  const genders = ['Boys', 'Girls', 'Unisex'];
   const ageGroups = ['0-1', '2-5', '6-10', '11-15'];
 
   const [filters, setFilters] = useState({

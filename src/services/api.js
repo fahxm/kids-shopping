@@ -45,6 +45,9 @@ export const api = {
       if (params?.age && params.age !== 'All') {
         filtered = filtered.filter(p => p.ageRange === params.age);
       }
+      if (params?.gender && params.gender !== 'All') {
+        filtered = filtered.filter(p => p.gender === params.gender);
+      }
       if (params?.search) {
         const s = params.search.toLowerCase();
         filtered = filtered.filter(p =>
