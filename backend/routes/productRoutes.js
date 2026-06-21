@@ -94,4 +94,87 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Create new review
+router.post('/:id/reviews', protect, async (req, res) => {
+    try {
+        const { rating, comment, name } = req.body;
+        const product = await Product.findById(req.params.id);
+
+        if (product) {
+            const alreadyReviewed = product.reviews.find(
+                (r) => r.user.toString() === req.user._id.toString()
+            );
+
+            if (alreadyReviewed) {
+                return res.status(400).json({ message: 'Product already reviewed' });
+            }
+
+            const review = {
+                name: name || req.user.name,
+                rating: Number(rating),
+                comment,
+                user: req.user._id,
+            };
+
+            product.reviews.push(review);
+            product.numReviews = product.reviews.length;
+            product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+
+            await product.save();
+            res.status(201).json({ message: 'Review added' });
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Ask a question
+router.post('/:id/questions', protect, async (req, res) => {
+    try {
+        const { question, name } = req.body;
+        const product = await Product.findById(req.params.id);
+
+        if (product) {
+            const newQuestion = {
+                name: name || req.user.name,
+                question,
+                user: req.user._id,
+            };
+
+            product.questions.push(newQuestion);
+            await product.save();
+            res.status(201).json({ message: 'Question asked' });
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Answer a question (Admin only)
+router.put('/:id/questions/:questionId/answer', protect, admin, async (req, res) => {
+    try {
+        const { answer } = req.body;
+        const product = await Product.findById(req.params.id);
+
+        if (product) {
+            const question = product.questions.id(req.params.questionId);
+            if (question) {
+                question.answer = answer;
+                await product.save();
+                res.json({ message: 'Question answered' });
+            } else {
+                res.status(404).json({ message: 'Question not found' });
+            }
+        } else {
+            res.status(404).json({ message: 'Product not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = router;

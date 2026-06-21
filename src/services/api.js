@@ -74,6 +74,14 @@ export const api = {
     create: async (productData) => {
       const { data } = await apiClient.post('/products', productData);
       return data;
+    },
+    addReview: async (id, reviewData) => {
+      const { data } = await apiClient.post(`/products/${id}/reviews`, reviewData);
+      return data;
+    },
+    askQuestion: async (id, questionData) => {
+      const { data } = await apiClient.post(`/products/${id}/questions`, questionData);
+      return data;
     }
   },
   orders: {
@@ -125,6 +133,10 @@ export const api = {
     },
     updateProduct: async (id, productData) => {
       const { data } = await apiClient.put(`/products/${id}`, productData);
+      return data;
+    },
+    answerQuestion: async (id, questionId, answer) => {
+      const { data } = await apiClient.put(`/products/${id}/questions/${questionId}/answer`, { answer });
       return data;
     }
   }
