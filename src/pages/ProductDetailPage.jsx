@@ -16,6 +16,10 @@ const ProductDetailPage = () => {
       api.products.getById(id).then(res => {
         setProduct(res);
         setLoading(false);
+      }).catch(err => {
+        console.error('Error fetching product:', err);
+        setProduct(null);
+        setLoading(false);
       });
     }
   }, [id]);
@@ -43,13 +47,15 @@ const ProductDetailPage = () => {
               className="w-full h-full object-cover rounded-[2.5rem]"
             />
           </div>
-          <div className="grid grid-cols-4 gap-4 mt-6">
-            {[1, 2, 3, 4].map(i => (
-              <div key={i} className="aspect-square bg-white rounded-2xl border-2 border-transparent hover:border-blue-400 cursor-pointer overflow-hidden opacity-60 hover:opacity-100 transition">
-                <img src={`https://picsum.photos/seed/${product.id + i}/400/400`} className="w-full h-full object-cover" />
-              </div>
-            ))}
-          </div>
+          {product.additionalImages && product.additionalImages.length > 0 && (
+            <div className="grid grid-cols-4 gap-4 mt-6">
+              {product.additionalImages.map((imgUrl, i) => (
+                <div key={i} className="aspect-square bg-white rounded-2xl border-2 border-transparent hover:border-blue-400 cursor-pointer overflow-hidden opacity-60 hover:opacity-100 transition">
+                  <img src={imgUrl} className="w-full h-full object-cover" alt={`${product.title} ${i + 1}`} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Product Info */}

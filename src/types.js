@@ -1,5 +1,5 @@
 export const Category = {
-  Apparel: 'Apparel',
+  Clothing: 'Clothing',
   Toys: 'Toys'
 };
 

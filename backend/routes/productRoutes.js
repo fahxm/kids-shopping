@@ -46,7 +46,7 @@ router.delete('/:id', protect, admin, async (req, res) => {
 // Update Product (Admin Only)
 router.put('/:id', protect, admin, async (req, res) => {
     try {
-        const { title, price, description, category, imageUrl, ageRange, stock } = req.body;
+        const { title, price, description, category, imageUrl, ageRange, stock, additionalImages } = req.body;
         const product = await Product.findById(req.params.id);
 
         if (product) {
@@ -57,6 +57,9 @@ router.put('/:id', protect, admin, async (req, res) => {
             product.imageUrl = imageUrl || product.imageUrl;
             product.ageRange = ageRange || product.ageRange;
             product.stock = stock || product.stock;
+            if (additionalImages !== undefined) {
+                product.additionalImages = additionalImages;
+            }
 
             const updatedProduct = await product.save();
             res.json(updatedProduct);
@@ -71,7 +74,7 @@ router.put('/:id', protect, admin, async (req, res) => {
 //Create a product
 router.post('/', async (req, res) => {
     try {
-        const { title, price, description, category, imageUrl, ageRange } = req.body;
+        const { title, price, description, category, imageUrl, ageRange, additionalImages } = req.body;
 
         const product = new Product({
             title,
@@ -81,7 +84,7 @@ router.post('/', async (req, res) => {
             imageUrl: imageUrl || 'https://via.placeholder.com/400',
             ageRange: ageRange || 'All',
             stock: 10,
-
+            additionalImages: additionalImages || [],
         });
 
         const createdProduct = await product.save();

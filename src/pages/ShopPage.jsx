@@ -11,7 +11,7 @@ const ShopPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const categories = ['Toys', 'Clothing', 'Accessories', 'Books'];
+  const categories = ['Toys', 'Clothing', 'Accessories', 'Books', 'Footwear'];
   const genders = ['Boys', 'Girls', 'Unisex'];
   const ageGroups = ['0-1', '2-5', '6-10', '11-15'];
 

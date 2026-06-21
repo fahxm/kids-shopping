@@ -30,7 +30,7 @@ const Navbar = () => {
 
             <div className="hidden md:ml-10 md:flex md:space-x-8">
               <Link to="/shop" className="text-gray-700 hover:text-blue-500 font-medium">Shop All</Link>
-              <Link to="/shop?category=Apparel" className="text-gray-700 hover:text-pink-500 font-medium">Apparel</Link>
+              <Link to="/shop?category=Clothing" className="text-gray-700 hover:text-pink-500 font-medium">Clothing</Link>
               <Link to="/shop?category=Toys" className="text-gray-700 hover:text-yellow-600 font-medium">Toys</Link>
             </div>
           </div>

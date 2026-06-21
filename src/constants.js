@@ -4,7 +4,7 @@ export const MOCK_PRODUCTS = [
         title: "Cotton Blue Dress",
         description: "A beautiful blue dress made of 100% cotton.",
         price: 899,
-        category: "Apparel",
+        category: "Clothing",
         ageRange: "6-10",
         imageUrl: "https://images.pexels.com/photos/1619697/pexels-photo-1619697.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
@@ -22,7 +22,7 @@ export const MOCK_PRODUCTS = [
         title: "Pink Floral Frock",
         description: "Lovely pink frock with floral patterns.",
         price: 1200,
-        category: "Apparel",
+        category: "Clothing",
         ageRange: "0-5",
         imageUrl: "https://images.pexels.com/photos/3663068/pexels-photo-3663068.jpeg?auto=compress&cs=tinysrgb&w=400"
     },
@@ -40,7 +40,7 @@ export const MOCK_PRODUCTS = [
         title: "Denim Jacket",
         description: "Stylish denim jacket for cool weather.",
         price: 1500,
-        category: "Apparel",
+        category: "Clothing",
         ageRange: "11-15",
         imageUrl: "https://images.pexels.com/photos/1126935/pexels-photo-1126935.jpeg?auto=compress&cs=tinysrgb&w=400"
     }

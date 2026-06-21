@@ -14,7 +14,7 @@ const AdminPage = () => {
 
     // Form State
     const [formData, setFormData] = useState({
-        title: '', price: '', description: '', category: 'Toys', ageRange: '3-5', imageUrl: '', stock: 10
+        title: '', price: '', description: '', category: 'Toys', ageRange: '3-5', imageUrl: '', stock: 10, additionalImages: []
     });
     const [editingId, setEditingId] = useState(null);
     const [message, setMessage] = useState('');
@@ -64,14 +64,15 @@ const AdminPage = () => {
             category: product.category,
             ageRange: product.ageRange,
             imageUrl: product.imageUrl,
-            stock: product.stock || 10
+            stock: product.stock || 10,
+            additionalImages: product.additionalImages || []
         });
         setEditingId(product._id || product.id);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const handleCancelEdit = () => {
-        setFormData({ title: '', price: '', description: '', category: 'Toys', ageRange: '3-5', imageUrl: '', stock: 10 });
+        setFormData({ title: '', price: '', description: '', category: 'Toys', ageRange: '3-5', imageUrl: '', stock: 10, additionalImages: [] });
         setEditingId(null);
     };
 
@@ -85,7 +86,7 @@ const AdminPage = () => {
                 await api.products.create(formData);
                 setMessage('Product Created Successfully!');
             }
-            setFormData({ title: '', price: '', description: '', category: 'Toys', ageRange: '3-5', imageUrl: '', stock: 10 });
+            setFormData({ title: '', price: '', description: '', category: 'Toys', ageRange: '3-5', imageUrl: '', stock: 10, additionalImages: [] });
             setEditingId(null);
             fetchData();
             setTimeout(() => setMessage(''), 3000);
@@ -154,13 +155,37 @@ const AdminPage = () => {
                     <input className="p-2 border rounded" placeholder="Title" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} required />
                     <input className="p-2 border rounded" placeholder="Price" type="number" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} required />
                     <select className="p-2 border rounded" value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })}>
-                        <option>Toys</option><option>Clothing</option><option>Books</option><option>Accessories</option>
+                        <option>Toys</option><option>Clothing</option><option>Books</option><option>Accessories</option><option>Footwear</option>
                     </select>
                     <select className="p-2 border rounded" value={formData.ageRange} onChange={e => setFormData({ ...formData, ageRange: e.target.value })}>
                         <option value="0-1">0-1 Years</option><option value="2-5">2-5 Years</option><option value="6-10">6-10 Years</option><option value="11-15">11-15 Years</option>
                     </select>
                     <input className="p-2 border rounded md:col-span-2" placeholder="Image URL" value={formData.imageUrl} onChange={e => setFormData({ ...formData, imageUrl: e.target.value })} />
                     <textarea className="p-2 border rounded md:col-span-2" placeholder="Description" rows="2" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} required />
+                    
+                    <div className="md:col-span-2 p-4 border rounded bg-gray-50">
+                        <div className="flex justify-between items-center mb-2">
+                            <label className="font-bold text-gray-700">Additional Images</label>
+                            <button type="button" onClick={() => setFormData({ ...formData, additionalImages: [...(formData.additionalImages || []), ''] })} className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200">
+                                + Add Image
+                            </button>
+                        </div>
+                        {(formData.additionalImages || []).map((img, idx) => (
+                            <div key={idx} className="flex gap-2 mb-2">
+                                <input className="p-2 border rounded flex-1" placeholder="Additional Image URL" value={img} onChange={(e) => {
+                                    const newImages = [...formData.additionalImages];
+                                    newImages[idx] = e.target.value;
+                                    setFormData({ ...formData, additionalImages: newImages });
+                                }} />
+                                <button type="button" onClick={() => {
+                                    const newImages = formData.additionalImages.filter((_, i) => i !== idx);
+                                    setFormData({ ...formData, additionalImages: newImages });
+                                }} className="bg-red-100 text-red-600 px-3 py-2 rounded hover:bg-red-200">
+                                    X
+                                </button>
+                            </div>
+                        ))}
+                    </div>
                     <button type="submit" className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
                         {editingId ? 'Update Product' : 'Add Product'}
                     </button>

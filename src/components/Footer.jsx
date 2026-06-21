@@ -32,7 +32,7 @@ const Footer = () => {
         <div>
           <h4 className="text-xl font-bold mb-6">Explore</h4>
           <ul className="space-y-4 text-blue-100">
-            <li><Link to="/shop?category=Apparel" className="hover:text-white transition">New Apparel</Link></li>
+            <li><Link to="/shop?category=Clothing" className="hover:text-white transition">New Clothing</Link></li>
             <li><Link to="/shop?category=Toys" className="hover:text-white transition">Best Selling Toys</Link></li>
             <li><Link to="/shop?age=0-5" className="hover:text-white transition">Baby & Toddler</Link></li>
             <li><Link to="/shop?age=11-15" className="hover:text-white transition">Teen Scene</Link></li>

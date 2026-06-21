@@ -63,12 +63,13 @@ export const api = {
         id: data._id,
         gender: 'Unisex',
         rating: 4.5,
-        ageRange: data.ageRange || 'Unspecified'
+        ageRange: data.ageRange || 'Unspecified',
+        additionalImages: data.additionalImages || []
       };
     },
     getFeatured: async () => {
-      const { data } = await apiClient.get('/products');
-      return data.slice(0, 4);
+      const allProducts = await api.products.getAll();
+      return allProducts.slice(0, 4);
     },
     create: async (productData) => {
       const { data } = await apiClient.post('/products', productData);
